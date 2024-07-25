@@ -1,23 +1,34 @@
 function getjson(){
-    var jsonf = fetch('./prices.json')
+    return fetch('https://calculadora-de-milhas-aef3f-default-rtdb.firebaseio.com/.json')
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
+        
         return response.json();
     })
-    .then(data => {
-        console.log(data); // Aqui você pode manipular os dados como quiser
-    })
-    .catch(error => {
-        console.error('Houve um problema com a operação fetch:', error);
-    });
+    
+    
+}
+function piscar_cor(){
+    milhas.style.color = 'black'
 }
 
-function calcular(){
-    var milhas = document.getElementById('milhas')
-    var jsonf = getjson()
+async function calcular(){
+    const milhas = document.getElementById('milhas')
+    const reais = document.getElementById('reais')
+    const select = document.getElementById('companhia')
 
-    //var obj = JSON.parse(jsonf)
-    console.log(typeof(jsonf))
+    if (select.value != "nulo"){
+        const jsonf = await getjson();
+    
+        var calculo = (jsonf[select.value] * (milhas.value /1000)).toFixed(2)
+        
+        reais.value = 'R$ ' + String(calculo)
+
+    }
+    else{
+        milhas.style.color = 'red'
+        setTimeout(piscar_cor,1000)
+        
+        
+       
+    }
 }

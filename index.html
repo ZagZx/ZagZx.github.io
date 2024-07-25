@@ -3,67 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .container{
-            width: 100vw;
-            height: 100vh;
+    <title>Milhas do Bandas</title>
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            background-color: rgb(43, 36, 36);
-
-        .box{
-            width: 30%;
-            height: 60%;
-
-            background-color: rgb(75, 70, 70);
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: -3px -3px rgb(170, 112, 3);
-            
-            
-            h1{
-                color: white;
-                text-shadow: 2px 2px black;
-            }
-            p{
-                margin-left: 40%;
-                margin-right: 40%;
-
-                background-color: rgb(114, 112, 112);
-                
-                padding-top: 2%;
-                padding-bottom: 2%;
-                border-radius: 5px;
-                font-size: large;
-                
-                
-            }
-            input{
-        
-                width: 80%;
-                height: 8%;
-
-                border-radius: 3px;
-                text-align: center;
-                font-size: large;
-            }
-            #reais{
-                background-color: rgb(189, 182, 182);
-                color: black;
-            }
-            
-        }
-            
-        }
-        body{
-            margin: 0px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     
 </head>
 <body>
@@ -71,16 +13,38 @@
         type="text/javascript" 
         src="calc.js">
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function optiontext(){
+            const json = await getjson()
+            const latam = document.getElementById('latam')
+            const gol = document.getElementById('gol')
+            const azul = document.getElementById('azul')
+
+            latam.innerText = 'Latam: R$' + String(json['latam'])
+            gol.innerText =  'Gol: R$' + String(json['gol'])
+            azul.innerText =  'Azul: R$' + String(json['azul'])
+
+        })
+    </script>
+    
     <div class="container">
+        
+        <a href="update/update.html"><h2>Atualizar Valores</h2></a>
         <div class="box">
             <h1>Calculadora de Milhas</h1>
             
+            <input oninput="calcular()" id="milhas" type="number" placeholder="Milhas">
             
-            <input id="milhas" type="number" placeholder="Milhas">
+            <input id="reais" value="R$ 0.00" style="margin-top: 10%;" type="text" disabled>
             
-            <input id="reais" style="margin-top: 10%;" type="text" disabled value="R$150,00">
+            <select onchange="calcular()" id="companhia" required>
+                <option hidden selected value="nulo">Selecione uma companhia aérea</option>
+
+                <option id="latam" value="latam"></option>
+                <option id="gol" value="gol"></option>
+                <option id="azul" value="azul"></option>
+            </select>
             
-            <button onclick="calcular()">Calcular</button>
         </div>
     </div>
 </body>
